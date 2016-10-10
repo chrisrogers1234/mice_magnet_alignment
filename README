@@ -1,0 +1,25 @@
+Scripts to do the transfer matrix analysis
+
+Executable scripts:
+===================
+* calculate_tm.py which will calculate transfer matrices for data
+* do_geometry.bash which will download a geometry for a  given run number
+* fit_tm.py which will attempt to fit calculated tranfer matrices (calculated by calculate_tm.py) to analytical model, by wiggling the magnets
+
+Meat:
+=====
+All the meat is in scripts directory. Here you will find
+* a bunch of configuration files.
+* data_loader.py Loads data from disk into memory; applies a bunch of "data quality cuts"
+* data_plotter.py Plots raw data
+* pz_calculator.py Toy pz fitter, for straight track data
+* tm_calculator.py Calculate  the transfer matrix
+* tm_plotter.py Plot the calculated transfer matrix, along with fitted values
+* lattice.py Analytical transfer matrix calculation
+* fit_transfer_matrix directory contains routines to fit the transfer matrix; there is another routine to calculate  the analytical transfer matrix in here. Sorry.
+* make_field_map.py Utility for plotting fields
+* geometry_toy.py can probably be ignored
+
+
+
+
