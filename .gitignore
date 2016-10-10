@@ -1,0 +1,10 @@
+*.pyc
+log*
+*log
+iteration*
+*~
+geometry_*
+calculated_tms
+test_beam_alignment
+test_simulate_beam
+tmp

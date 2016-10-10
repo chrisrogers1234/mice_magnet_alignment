@@ -1,0 +1,431 @@
+// Step IV coil currents
+//
+// Note that inline comments are for MDIC
+
+Module Stage4Coils
+{
+  PropertyString Material Galactic
+  PropertyHep3Vector Dimensions 1000.0 1000.0 10000.0 mm 
+
+  Substitution $FieldMapMode Read // Change to read to speed the code up...
+  Substitution $FC_Current 50.
+  Substitution $SS_Offset 2450.
+
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 -3000.0+@RepeatNumber*100 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+    PropertyBool   RepeatModule2 True
+    PropertyInt    NumberOfRepeats 58
+  }
+  Module AFC
+  {
+    Volume Cylinder
+    PropertyString Material Galactic
+    PropertyHep3Vector Dimensions 500. 1400. -1 mm
+
+    Position 0.0 0.0 0.0 mm
+    Rotation 0.0 0.0 0.0 degree
+    Module FocusCoil_US
+    {
+      Volume None
+      Position 0.0 0.0 -202.75 mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor +$FC_Current
+      // Field
+      PropertyString FieldType       Solenoid
+      PropertyString FieldMapMode    $FieldMapMode
+      PropertyString FileName        ${MAUS_ROOT_DIR}/tmp/magnet-alignment/focus.fld
+      PropertyDouble Current         1.
+      PropertyInt    NumberOfTurns   11256
+      PropertyDouble Length          213.3
+      PropertyDouble Thickness       94.8
+      PropertyDouble InnerRadius     267.
+      PropertyString FieldName       FocusCoil_US
+    }
+    Module FocusCoil_DS
+    {
+      Volume None
+      Position 0.0 0.0 +202.75 mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor +$FC_Current
+      // Field
+      PropertyString FieldType       Solenoid
+      PropertyString FieldMapMode    $FieldMapMode
+      PropertyString FileName        ${MAUS_ROOT_DIR}/tmp/magnet-alignment/focus.fld
+      PropertyDouble Current         1.
+      PropertyInt    NumberOfTurns   11257 // NOTE
+      PropertyDouble Length          213.3
+      PropertyDouble Thickness       94.8
+      PropertyDouble InnerRadius     267.
+      PropertyString FieldName       FocusCoil_DS
+    }
+    Module FCUS
+    {
+      Volume None
+      Position 0.0 0.0 -422.0 mm
+      Rotation 0.0 0.0 0.0 degree
+      PropertyDouble ScaleFactor 0
+      PropertyString FieldType CylindricalField
+      PropertyDouble Length 1.
+      PropertyDouble FieldRadius 1.      
+      PropertyHep3Vector ConstantField 0. 0. 0. T
+      PropertyString FieldName FC_US_Flange
+    }
+    Module FocusCoil_Center
+    {
+      Volume None
+      Position 0.0 0.0 0.0 mm
+      Rotation 0.0 0.0 0.0 degree
+      PropertyDouble ScaleFactor 0
+      PropertyString FieldType CylindricalField
+      PropertyDouble Length 1.
+      PropertyDouble FieldRadius 1.      
+      PropertyHep3Vector ConstantField 0. 0. 0. T
+      PropertyString FieldName FC_Center
+    }
+    Module FCDS
+    {
+      Volume None
+      Position 0.0 0.0 422.0 mm
+      Rotation 0.0 0.0 0.0 degree
+      PropertyDouble ScaleFactor 0
+      PropertyString FieldType CylindricalField
+      PropertyDouble Length 1.
+      PropertyDouble FieldRadius 1.      
+      PropertyHep3Vector ConstantField 0. 0. 0. T
+      PropertyString FieldName FC_DS_Flange
+    }
+  }
+
+
+  Module SSD
+  {
+    Volume Cylinder
+    PropertyString Material Galactic
+    PropertyHep3Vector Dimensions 500. 3400. -1 mm
+    PropertyHep3Vector Position 0.0 0.0 $SS_Offset mm
+    PropertyHep3Vector Rotation 0.0 0.0 0.0 degree
+    Module MatchCoil1_DS
+    {
+      Volume None
+      Position 0.0 0.0 861.0-$SS_Offset mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor 0
+      // Field
+      PropertyString FieldType      Solenoid
+      PropertyString FieldMapMode   $FieldMapMode
+      PropertyString FileName       ${MAUS_ROOT_DIR}/tmp/magnet-alignment/match1.fld
+      PropertyDouble CurrentDensity 1.
+      PropertyDouble Length         201.3
+      PropertyDouble Thickness      46.2
+      PropertyDouble InnerRadius    258.
+      PropertyString FieldName       MatchCoil1_DS
+    }
+    Module MatchCoil2_DS
+    {
+      Volume None
+      Position 0.0 0.0 1300.-$SS_Offset mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor 0
+      // Field
+      PropertyString FieldType         Solenoid
+      PropertyString FieldMapMode      $FieldMapMode
+      PropertyString FileName          ${MAUS_ROOT_DIR}/tmp/magnet-alignment/match2.fld
+      PropertyDouble CurrentDensity    1.
+      PropertyDouble Length            199.5
+      PropertyDouble Thickness         30.9
+      PropertyDouble InnerRadius       258.
+      PropertyString FieldName       MatchCoil2_DS
+    }
+    Module EndCoil1_DS
+    {
+      Volume None
+      Position 0.0 0.0 1700-$SS_Offset mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor 0
+      // Field
+      PropertyString FieldType       Solenoid
+      PropertyString FieldMapMode    $FieldMapMode
+      PropertyString FileName        ${MAUS_ROOT_DIR}/tmp/magnet-alignment/end1.fld
+      PropertyDouble CurrentDensity  1.
+      PropertyDouble Length          110.6
+      PropertyDouble Thickness       60.9
+      PropertyDouble InnerRadius     258.
+      PropertyString FieldName       EndCoil1_DS
+    }
+    Module CenterCoil_DS
+    {
+      Volume None
+      Position 0.0 0.0 2450.-$SS_Offset mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor 0
+      // Field
+      PropertyString FieldType      Solenoid
+      PropertyString FieldMapMode   $FieldMapMode
+      PropertyString FileName       ${MAUS_ROOT_DIR}/tmp/magnet-alignment/center.fld
+      PropertyDouble CurrentDensity 1.
+      PropertyDouble Length         1314.3
+      PropertyDouble Thickness      22.1
+      PropertyDouble InnerRadius    258.
+      PropertyString FieldName      CenterCoil_DS
+    }
+    Module EndCoil2_DS
+    {
+      Volume None
+      Position 0.0 0.0 3200.-$SS_Offset mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor 0
+      // Field
+      PropertyString FieldType       Solenoid
+      PropertyString FieldMapMode    $FieldMapMode
+      PropertyString FileName        ${MAUS_ROOT_DIR}/tmp/magnet-alignment/end2.fld
+      PropertyDouble CurrentDensity  1.
+      PropertyDouble Length          110.6
+      PropertyDouble Thickness       67.8
+      PropertyDouble InnerRadius     258.
+      PropertyString FieldName      EndCoil2_DS
+    }
+    Module SSD_USEndFlange
+    {
+      Volume None
+      PropertyString Material Galactic
+      Position 0.0 0.0 -2850+853. mm
+      Rotation 0.0 0.0 0.0 degree
+      PropertyDouble ScaleFactor 0
+      PropertyString FieldType CylindricalField
+      PropertyDouble Length 1.
+      PropertyDouble FieldRadius 1.      
+      PropertyHep3Vector ConstantField 0. 0. 0. T
+      PropertyString FieldName SSD_US_Flange
+    }
+    Module SSDCenter
+    {
+      Volume None
+      Position 0.0 0.0 -2850.0+2850.0 mm
+      Rotation 0.0 0.0 0.0 degree
+      PropertyDouble ScaleFactor 0
+      PropertyString FieldType CylindricalField
+      PropertyDouble Length 1.
+      PropertyDouble FieldRadius 1.      
+      PropertyHep3Vector ConstantField 0. 0. 0. T
+      PropertyString FieldName SSD_Center
+
+    }
+    Module SSD_DSEndFlange
+    {
+      Volume None
+      Position 0.0 0.0 -2850+4106. mm
+      Rotation 0.0 0.0 0.0 degree
+      PropertyDouble ScaleFactor 0
+      PropertyString FieldType CylindricalField
+      PropertyDouble Length 1.
+      PropertyDouble FieldRadius 1.      
+      PropertyHep3Vector ConstantField 0. 0. 0. T
+      PropertyString FieldName SSD_DS_Flange
+    }
+
+  }
+
+  Module SSU
+  {
+    Volume Cylinder
+    PropertyString Material Galactic
+    PropertyHep3Vector Dimensions 500. 3400. -1 mm
+    PropertyHep3Vector Position 0.0 0.0 -$SS_Offset mm
+    PropertyHep3Vector Rotation 0.0 0.0 0.0 degree
+    Module MatchCoil1_US
+    {
+      Volume None
+      Position 0.0 0.0 -861.0+$SS_Offset mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor 0
+      //Field
+      PropertyString FieldType      Solenoid
+      PropertyString FieldMapMode   $FieldMapMode
+      PropertyString FileName       ${MAUS_ROOT_DIR}/tmp/magnet-alignment/match1.fld
+      PropertyDouble CurrentDensity 1.
+      PropertyDouble Length         201.3
+      PropertyDouble Thickness      46.2
+      PropertyDouble InnerRadius    258.
+      PropertyString FieldName      MatchCoil1_US
+
+    }
+    Module MatchCoil2_US
+    {
+      Volume None
+      Position 0.0 0.0 -1300.+$SS_Offset mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor 0
+      // Field
+      PropertyString FieldType         Solenoid
+      PropertyString FieldMapMode      $FieldMapMode
+      PropertyString FileName          ${MAUS_ROOT_DIR}/tmp/magnet-alignment/match2.fld
+      PropertyDouble CurrentDensity    1.
+      PropertyDouble Length            199.5
+      PropertyDouble Thickness         30.9
+      PropertyDouble InnerRadius       258.
+      PropertyString FieldName         MatchCoil2_US
+
+    }
+    Module EndCoil1_US
+    {
+      Volume None
+      Position 0.0 0.0 -1700.+$SS_Offset mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor 0
+      // Field
+      PropertyString FieldType       Solenoid
+      PropertyString FieldMapMode    $FieldMapMode
+      PropertyString FileName        ${MAUS_ROOT_DIR}/tmp/magnet-alignment/end1.fld
+      PropertyDouble CurrentDensity  1.
+      PropertyDouble Length          110.6
+      PropertyDouble Thickness       60.9
+      PropertyDouble InnerRadius     258.
+      PropertyString FieldName       EndCoil1_US
+    }
+    Module CenterCoil_US
+    {
+      Volume None
+      Position 0.0 0.0 -2450.+$SS_Offset mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor 0
+      // Field
+      PropertyString FieldType      Solenoid
+      PropertyString FieldMapMode   $FieldMapMode
+      PropertyString FileName       ${MAUS_ROOT_DIR}/tmp/magnet-alignment/center.fld
+      PropertyDouble CurrentDensity 1.
+      PropertyDouble Length         1314.3
+      PropertyDouble Thickness      22.1
+      PropertyDouble InnerRadius    258.
+      PropertyString FieldName      CenterCoil_US
+    }
+    Module EndCoil2_US
+    {
+      Volume None
+      Position 0.0 0.0 -3200+$SS_Offset mm
+      Rotation 0.0 0.0 0.0 degree
+      ScaleFactor 0
+      // Field
+      PropertyString FieldType       Solenoid
+      PropertyString FieldMapMode    $FieldMapMode
+      PropertyString FileName        ${MAUS_ROOT_DIR}/tmp/magnet-alignment/end2.fld
+      PropertyDouble CurrentDensity  1.
+      PropertyDouble Length          110.6
+      PropertyDouble Thickness       67.8
+      PropertyDouble InnerRadius     258.
+      PropertyString FieldName      EndCoil2_US
+    }
+    Module SSU_USEndFlange
+    {
+      Volume None
+      Position 0.0 0.0 -3256+1750. mm
+      Rotation 0.0 0.0 0.0 degree
+      PropertyDouble ScaleFactor 0
+      PropertyString FieldType CylindricalField
+      PropertyDouble Length 1.
+      PropertyDouble FieldRadius 1.      
+      PropertyHep3Vector ConstantField 0. 0. 0. T
+      PropertyString FieldName SSU_US_Flange
+    }
+    Module SSUCenter
+    {
+      Volume None
+      Position 0.0 0.0 -1750.0+1750.0 mm
+      Rotation 0.0 0.0 0.0 degree
+      PropertyDouble ScaleFactor 0
+      PropertyString FieldType CylindricalField
+      PropertyDouble Length 1.
+      PropertyDouble FieldRadius 1.      
+      PropertyHep3Vector ConstantField 0. 0. 0. T
+      PropertyString FieldName SSU_Center
+    }
+    Module SSU_DSEndFlange
+    {
+      Volume None
+      Position 0.0 0.0 247+1750. mm
+      Rotation 0.0 0.0 0.0 degree
+      PropertyDouble ScaleFactor 0
+      PropertyString FieldType CylindricalField
+      PropertyDouble Length 1.
+      PropertyDouble FieldRadius 1.      
+      PropertyHep3Vector ConstantField 0. 0. 0. T
+      PropertyString FieldName SSU_DS_Flange
+    }
+  }
+
+  // tracker reference planes
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 -2918.5 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+  }
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 -2568.5 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+  }
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 -2268.5 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+  }
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 -2018.5 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+  }
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 -1818.5 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+  }
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 2918.5 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+  }
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 2568.5 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+  }
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 2268.5 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+  }
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 2018.5 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+  }
+  Module VirtualPlane
+  {
+    Volume None
+    Position 0.0 0.0 1818.5 mm
+    Rotation 0.0 0.0 0.0 degree
+    PropertyString SensitiveDetector Virtual
+  }
+}
+
